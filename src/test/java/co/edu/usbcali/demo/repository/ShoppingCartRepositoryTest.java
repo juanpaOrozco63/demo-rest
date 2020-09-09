@@ -24,6 +24,7 @@ import co.edu.usbcali.demo.domain.ShoppingCart;
 @Rollback(false)
 @TestMethodOrder(OrderAnnotation.class)
 class ShoppingCartRepositoryTest {
+	
 	private static Integer carId=null;
 	private static String email="abaglowbn@furl.net";
 	private static Integer payId=1;
