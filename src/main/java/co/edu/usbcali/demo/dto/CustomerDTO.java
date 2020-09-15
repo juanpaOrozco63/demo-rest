@@ -7,9 +7,11 @@ public class CustomerDTO {
 	private String name;
 	private String phone;
 	private String token;
+	
 	public CustomerDTO() {
 		super();
 	}
+	
 	public CustomerDTO(String email, String address, String enable, String name, String phone, String token) {
 		super();
 		this.email = email;
@@ -19,6 +21,7 @@ public class CustomerDTO {
 		this.phone = phone;
 		this.token = token;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
