@@ -26,6 +26,7 @@ class PaymentMethodRepositoryTest {
 	@Transactional
 	@Order(1)
 	void save() {
+		
 		PaymentMethod paymentMethod = new PaymentMethod();
 		paymentMethod.setEnable("Y");
 		paymentMethod.setName("Efecty");
