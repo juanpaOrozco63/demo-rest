@@ -36,7 +36,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public ShoppingCart update(ShoppingCart entity) throws Exception {
-		// TODO Auto-generated method stub
 		validate(entity);
 		if (shoppingCartRepository.existsById(entity.getCarId()) == false) {
 			throw new Exception("El shoppingCart con id:" + entity.getCarId() + " no existe");
@@ -48,7 +47,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void delete(ShoppingCart entity) throws Exception {
-		// TODO Auto-generated method stub
 		if (entity == null) {
 			throw new Exception("El paymenMethod es nulo");
 		}
@@ -72,7 +70,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
 		if (id== null || id<1) {
 			throw new Exception("El carId es obligatorio");
 		}

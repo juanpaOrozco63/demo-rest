@@ -22,21 +22,18 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<PaymentMethod> findAll() {
-		// TODO Auto-generated method stub
 		return paymentMethodRepository.findAll();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Long count() {
-		// TODO Auto-generated method stub
 		return paymentMethodRepository.count();
 	}
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Optional<PaymentMethod> findById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
 		return paymentMethodRepository.findById(id);
 	}
 //	Validaciones
@@ -65,8 +62,10 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public PaymentMethod update(PaymentMethod entity) throws Exception {
-		// TODO Auto-generated method stub
 		validate(entity);
+		if(entity.getPayId()==null || entity.getPayId()<0) {
+			throw new Exception("El payId es obligatoria");
+		}
 		if (paymentMethodRepository.existsById(entity.getPayId()) == false) {
 			throw new Exception("El paymentMetohd con id:" + entity.getPayId() + " no existe");
 		}
@@ -94,14 +93,12 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 			}
 		});
 		paymentMethodRepository.deleteById(entity.getPayId());
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
 		if (id== null || id<1) {
 			throw new Exception("El proId es obligatorio");
 		}

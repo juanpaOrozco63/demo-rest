@@ -28,7 +28,7 @@ public class PaymentMethodServiceTest {
 	void save() throws Exception{
 		PaymentMethod paymentMethod = new PaymentMethod();
 		paymentMethod.setEnable("Y");
-		paymentMethod.setName("Bancolombia");
+		paymentMethod.setName("Efecty");
 		paymentMethodService.save(paymentMethod);
 		payId=paymentMethod.getPayId();
 		log.info("payId:"+payId);

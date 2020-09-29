@@ -64,7 +64,7 @@ public class ShoppingCartServiceTest {
 		
 		carId=shoppingCart.getCarId();
 		
-		
+		log.info("--------------");
 	}
 	@Test
 	@Order(2)

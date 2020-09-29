@@ -2,6 +2,11 @@ package co.edu.usbcali.demo.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +23,8 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	CustomerRepository customerRepository;
+	@Autowired
+	Validator validator;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -42,29 +49,9 @@ public class CustomerServiceImpl implements CustomerService {
 		if(entity==null) {
 			throw new Exception("El customer es nulo");
 		}
-		
-		if(entity.getAddress()==null || entity.getAddress().isBlank()==true) {
-			throw new Exception("El Address es obligatoria");
-		}
-		
-		if(entity.getEmail()==null || entity.getEmail().isBlank()==true) {
-			throw new Exception("El Email es obligatoria");
-		}
-		
-		if(entity.getEnable()==null || entity.getEnable().isBlank()==true) {
-			throw new Exception("El Enable es obligatoria");
-		}
-		
-		if(entity.getName()==null || entity.getName().isBlank()==true) {
-			throw new Exception("El Name es obligatoria");
-		}
-		
-		if(entity.getPhone()==null || entity.getPhone().isBlank()==true) {
-			throw new Exception("El Phone es obligatoria");
-		}
-		
-		if(entity.getToken()==null || entity.getToken().isBlank()==true) {
-			throw new Exception("El Token es obligatoria");
+		Set<ConstraintViolation<Customer>> constraintViolation =validator.validate(entity);
+		if(constraintViolation.isEmpty()==false) {
+			throw new ConstraintViolationException(constraintViolation);
 		}
 		
 	}
@@ -133,6 +120,8 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		if(customerRepository.existsById(id)) {
 			delete(customerRepository.findById(id).get());
+		}else {
+			throw new Exception("El customer con id:"+id+" no existe");
 		}
 		
 	}
