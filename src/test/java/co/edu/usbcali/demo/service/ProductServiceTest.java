@@ -37,7 +37,7 @@ class ProductServiceTest {
 		product.setProId(proId);
 		product.setName("Motorola One Vision");
 		product.setDetail("Nuevo Motorola lo mas top");
-		product.setEnable("Y");
+		product.setEnable("Yes");
 		product.setPrice(380000);
 		product.setImage("https://www.google.com/search?=608#imgrc=UKzy8o5FwEvtUM");
 		
