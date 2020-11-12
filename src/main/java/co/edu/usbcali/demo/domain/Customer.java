@@ -53,6 +53,9 @@ public class Customer implements java.io.Serializable {
 	@Column(name = "token", nullable = false)
 	private String token;
 	
+	@Column(name = "type_user", nullable = false)
+	@NotNull
+	private Integer typeUser;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
 	private List<ShoppingCart> shoppingCarts = new ArrayList<ShoppingCart>(0);
@@ -61,7 +64,7 @@ public class Customer implements java.io.Serializable {
 	}
 
 	public Customer(String email, String address, String enable, String name, String phone,
-			List<ShoppingCart> shoppingCarts, String token) {
+			List<ShoppingCart> shoppingCarts, String token,Integer typeUser) {
 		this.email = email;
 		this.address = address;
 		this.enable = enable;
@@ -69,6 +72,7 @@ public class Customer implements java.io.Serializable {
 		this.phone = phone;
 		this.token = token;
 		this.shoppingCarts = shoppingCarts;
+		this.typeUser=typeUser;
 	}
 
 	
@@ -129,8 +133,18 @@ public class Customer implements java.io.Serializable {
 	public List<ShoppingCart> getShoppingCarts() {
 		return this.shoppingCarts;
 	}
-
+	
+	
 	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
 		this.shoppingCarts = shoppingCarts;
 	}
+
+	public Integer getTypeUser() {
+		return typeUser;
+	}
+
+	public void setTypeUser(Integer typeUser) {
+		this.typeUser = typeUser;
+	}
+	
 }

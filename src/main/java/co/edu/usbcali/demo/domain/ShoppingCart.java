@@ -14,11 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
-/**
- * @author Zathura Code Generator http://zathuracode.org/ www.zathuracode.org
- *
- */
 @Entity
 @Table(name = "shopping_cart", schema = "public")
 public class ShoppingCart implements java.io.Serializable {
@@ -35,13 +30,15 @@ public class ShoppingCart implements java.io.Serializable {
 	private Long total;
 	
 	private String enable;
+	
 	private List<ShoppingProduct> shoppingProducts = new ArrayList<ShoppingProduct>(0);
 
 	public ShoppingCart() {
 	}
 
-	public ShoppingCart(Integer carId, Customer customer, PaymentMethod paymentMethod, Integer items, Long total,
-			String enable, List<ShoppingProduct> shoppingProducts) {
+	
+
+	public ShoppingCart(Integer carId, Customer customer, PaymentMethod paymentMethod, Integer items, Long total,String enable, List<ShoppingProduct> shoppingProducts) {
 		super();
 		this.carId = carId;
 		this.customer = customer;
@@ -55,7 +52,7 @@ public class ShoppingCart implements java.io.Serializable {
 
 
 	@Id
-	@Column(name = "car_id", unique = true, nullable = false)
+	@Column(name = "car_id", unique = true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getCarId() {
 		return this.carId;
@@ -63,6 +60,15 @@ public class ShoppingCart implements java.io.Serializable {
 
 	public void setCarId(Integer carId) {
 		this.carId = carId;
+	}
+	
+	@Column(name = "enable", nullable = false)
+	public String getEnable() {
+		return this.enable;
+	}
+
+	public void setEnable(String enable) {
+		this.enable = enable;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -111,13 +117,4 @@ public class ShoppingCart implements java.io.Serializable {
 	public void setShoppingProducts(List<ShoppingProduct> shoppingProducts) {
 		this.shoppingProducts = shoppingProducts;
 	}
-	@Column(name = "enable", nullable = false)
-	public String getEnable() {
-		return enable;
-	}
-
-	public void setEnable(String enable) {
-		this.enable = enable;
-	}
-	
 }

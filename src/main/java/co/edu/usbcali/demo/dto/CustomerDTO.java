@@ -1,5 +1,6 @@
 package co.edu.usbcali.demo.dto;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -37,11 +38,13 @@ public class CustomerDTO {
 	@NotEmpty
 	private String token;
 	
+	@NotNull
+	private Integer typeUser;
 	public CustomerDTO() {
 		super();
 	}
 	
-	public CustomerDTO(String email, String address, String enable, String name, String phone, String token) {
+	public CustomerDTO(String email, String address, String enable, String name, String phone, String token,Integer typeUser) {
 		super();
 		this.email = email;
 		this.address = address;
@@ -49,6 +52,7 @@ public class CustomerDTO {
 		this.name = name;
 		this.phone = phone;
 		this.token = token;
+		this.typeUser=typeUser;
 	}
 	
 	public String getEmail() {
@@ -87,5 +91,14 @@ public class CustomerDTO {
 	public void setToken(String token) {
 		this.token = token;
 	}
+
+	public Integer getTypeUser() {
+		return typeUser;
+	}
+
+	public void setTypeUser(Integer typeUser) {
+		this.typeUser = typeUser;
+	}
+	
 	
 }

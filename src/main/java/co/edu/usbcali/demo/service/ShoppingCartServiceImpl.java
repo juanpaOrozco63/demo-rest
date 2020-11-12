@@ -96,13 +96,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		if(entity.getEnable()==null||entity.getEnable().isBlank()) {
 			throw new Exception("El enable es obligatorio");
 		}
-		if(entity.getItems()==null||entity.getItems()<1) {
+		if(entity.getItems()==null||entity.getItems()<0) {
 			throw new Exception("La cantidad de items es obligatorio");
 		}
-		if(entity.getPaymentMethod()==null) {
-			throw new Exception("El PaymentMethod es obligatorio");
-		}
-		if(entity.getTotal()==null||entity.getTotal()<1) {
+		
+		if(entity.getTotal()==null||entity.getTotal()<0) {
 			throw new Exception("El total es obligatorio");
 		}
 	}
