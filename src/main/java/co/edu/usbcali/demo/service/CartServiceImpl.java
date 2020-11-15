@@ -129,6 +129,8 @@ public class CartServiceImpl implements CartService {
 		List<Integer> listaShprId=null;
 		ShoppingProduct shoppingProduct=null;
 		Product product=null;
+		Long totalShoppingCart  = null;
+		Integer itemsShoppingCart=null;
 		if(carId==null || carId<=0) {
 			throw new Exception("El carId es nulo o menor a cero");
 		}
@@ -168,6 +170,12 @@ public class CartServiceImpl implements CartService {
 					e.printStackTrace();
 				}
 		});
+		totalShoppingCart=shoppingProductService.totalShoppingProductByShoppingCart(carId);
+		itemsShoppingCart=shoppingProductService.totalItems(carId);
+		if(totalShoppingCart==null ||itemsShoppingCart==null) {
+			totalShoppingCart=0L;
+			itemsShoppingCart=0;
+		}
 		shoppingCart.setItems(shoppingProductService.totalItems(carId));
 		shoppingCart.setTotal(shoppingProductService.totalShoppingProductByShoppingCart(carId));
 		shoppingCartService.update(shoppingCart);
