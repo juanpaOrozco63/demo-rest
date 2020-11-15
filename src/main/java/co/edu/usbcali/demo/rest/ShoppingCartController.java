@@ -104,7 +104,7 @@ public class ShoppingCartController {
 	
 			cartService.createCart(email);
 			
-			return ResponseEntity.ok().body("se creo el cart con el email:"+email);
+			return ResponseEntity.ok().build();
 		
 	}
 	@GetMapping("/addProduct/{carId}/{proId}/{quantity}")
@@ -112,13 +112,13 @@ public class ShoppingCartController {
 	
 			cartService.addProduct(carId, proId, quantity);
 			
-			return ResponseEntity.ok().body("se agrego el producto al carro con carId: "+carId+" producto: "+proId+" cantidad: "+quantity);
+			return ResponseEntity.ok().build();
 		
 	}
 	@GetMapping("/removeProduct/{carId}/{proId}")
 	public ResponseEntity<?> removeProduct(@PathVariable("carId") Integer carId, @PathVariable("proId") String proId) throws Exception{
 			cartService.removeProduct(carId, proId);
-			return ResponseEntity.ok().body("se elimino el producto con carId: "+carId+" y proId: "+proId);
+			return ResponseEntity.ok().build();
 			
 			
 		
@@ -126,7 +126,7 @@ public class ShoppingCartController {
 	@DeleteMapping("/clearCart/{carId}")
 	public ResponseEntity<?> clearCart(@PathVariable("carId") Integer carId) throws Exception{
 			cartService.clearCart(carId);
-			return ResponseEntity.ok().body("Se limpio el carrito de compras con carId: "+carId);
+			return ResponseEntity.ok().build();
 			
 			
 		
