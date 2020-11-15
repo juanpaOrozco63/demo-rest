@@ -176,8 +176,8 @@ public class CartServiceImpl implements CartService {
 			totalShoppingCart=0L;
 			itemsShoppingCart=0;
 		}
-		shoppingCart.setItems(shoppingProductService.totalItems(carId));
-		shoppingCart.setTotal(shoppingProductService.totalShoppingProductByShoppingCart(carId));
+		shoppingCart.setItems(itemsShoppingCart);
+		shoppingCart.setTotal(totalShoppingCart);
 		shoppingCartService.update(shoppingCart);
 	}
 
