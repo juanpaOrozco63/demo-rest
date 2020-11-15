@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.usbcali.demo.domain.ShoppingCart;
+import co.edu.usbcali.demo.domain.ShoppingProduct;
 import co.edu.usbcali.demo.dto.ShoppingCartDTO;
 import co.edu.usbcali.demo.dto.ShoppingProductDTO;
 import co.edu.usbcali.demo.mapper.ShoppingCartMapper;
@@ -130,15 +131,14 @@ public class ShoppingCartController {
 			
 		
 	}
-//	@GetMapping("/findShoppingProductByShoppingCart/{carId}")
-//	public ResponseEntity<?> findShoppingProductByShoppingCart(@PathVariable("carId") Integer carId) throws Exception{
-//		
-//			List<ShoppingProductDTO> shoppingProductDTO =shoppingProductMapper.toShoppingProductDTO(shoppingProductDTO);
-//			cartService.findShoppingProductByShoppingCart(carId);
-//			
-//			return ResponseEntity.ok().body(shoppingProductDTO);
-//			
-//		
-//	}
+	@GetMapping("/findShoppingProductByShoppingCart/{carId}")
+	public ResponseEntity<?> findShoppingProductByShoppingCart(@PathVariable("carId") Integer carId) throws Exception{
+			List<ShoppingProductDTO> shoppingProductDTO =shoppingProductMapper.toListShoppingProductDTO(cartService.findShoppingProductByShoppingCart(carId));
+			;
+			
+			return ResponseEntity.ok().body(shoppingProductDTO);
+			
+		
+	}
 	
 }

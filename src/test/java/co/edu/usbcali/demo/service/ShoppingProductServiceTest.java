@@ -26,31 +26,31 @@ class ShoppingProductServiceTest {
 	ShoppingProductService shoppingProductService;
 
 	@Test
-	void total() {
+	void totalCarrito() {
 		//Arrange
 		Long total=0l;
 		Integer carId=21;
 		//Act
 		total=shoppingProductService.totalShoppingProductByShoppingCart(carId);
-		
+		log.info(total+"");
 		//Assert
 				
 		assertTrue(total>0);
 	}
 	@Test
-	void totalItems() {
+	void totalItemsCarrito() {
 		//Arrange
 		Integer totalItems=0;
-		Integer carId=20;
+		Integer carId=21;
 		//Act
 		totalItems=shoppingProductService.totalItems(carId);
-		
+		log.info("Items totales: "+totalItems);
 		//Assert
 				
 		assertTrue(totalItems>0);
 	}
 	@Test
-	void selectSphr() {
+	void selectSphrProducto() {
 		//Arrange
 		List<Integer> lista = null;
 		String proId="APPL56";
@@ -69,7 +69,7 @@ class ShoppingProductServiceTest {
 		//Arrange
 			List<Integer> lista = null;
 			String proId="APPL56";
-			Integer carId=0;
+			Integer carId=21;
 			//Act
 				lista=shoppingProductService.selectShpr(carId, proId);
 				lista.forEach(shpro->{
