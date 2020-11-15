@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 public class Customer implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@Column(name = "email", unique = true, nullable = false)
 	@NotNull

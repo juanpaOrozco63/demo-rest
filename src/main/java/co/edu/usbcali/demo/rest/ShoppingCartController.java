@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.dto.ShoppingCartDTO;
+import co.edu.usbcali.demo.dto.ShoppingProductDTO;
 import co.edu.usbcali.demo.mapper.ShoppingCartMapper;
+import co.edu.usbcali.demo.mapper.ShoppingProductMapper;
+import co.edu.usbcali.demo.service.CartService;
 import co.edu.usbcali.demo.service.ShoppingCartService;
 
 @RestController
@@ -33,6 +36,11 @@ public class ShoppingCartController {
 	ShoppingCartMapper shoppingCartMapper;
 	@Autowired
 	ShoppingCartService shoppingCartService;
+	
+	@Autowired
+	ShoppingProductMapper shoppingProductMapper;
+	@Autowired
+	CartService cartService;
 	
 	private final static Logger log = LoggerFactory.getLogger(CustomerController.class);
 	
@@ -46,6 +54,7 @@ public class ShoppingCartController {
 			return ResponseEntity.ok().body(shoppingCartDTO);
 		
 	}
+	
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody ShoppingCartDTO shoppingCartDTO)throws Exception{
 	
@@ -89,4 +98,47 @@ public class ShoppingCartController {
 			
 		
 	}
+	@GetMapping("/createCart/{email}")
+	public ResponseEntity<?> createCart(@PathVariable("email") String email)throws Exception{
+	
+			cartService.createCart(email);
+			
+			return ResponseEntity.ok().body("se creo el cart con el email:"+email);
+		
+	}
+	@GetMapping("/addProduct/{carId}/{proId}/{quantity}")
+	public ResponseEntity<?> addProduct(@PathVariable("carId") Integer carId, @PathVariable("proId") String proId,@PathVariable("quantity") Integer quantity)throws Exception{
+	
+			cartService.addProduct(carId, proId, quantity);
+			
+			return ResponseEntity.ok().body("se agrego el producto al carro con carId: "+carId+" producto: "+proId+" cantidad: "+quantity);
+		
+	}
+	@GetMapping("/removeProduct/{carId}/{proId}")
+	public ResponseEntity<?> removeProduct(@PathVariable("carId") Integer carId, @PathVariable("proId") String proId) throws Exception{
+			cartService.removeProduct(carId, proId);
+			return ResponseEntity.ok().body("se elimino el producto con carId: "+carId+" y proId: "+proId);
+			
+			
+		
+	}
+	@DeleteMapping("/clearCart/{carId}")
+	public ResponseEntity<?> clearCart(@PathVariable("carId") Integer carId) throws Exception{
+			cartService.clearCart(carId);
+			return ResponseEntity.ok().body("Se limpio el carrito de compras con carId: "+carId);
+			
+			
+		
+	}
+//	@GetMapping("/findShoppingProductByShoppingCart/{carId}")
+//	public ResponseEntity<?> findShoppingProductByShoppingCart(@PathVariable("carId") Integer carId) throws Exception{
+//		
+//			List<ShoppingProductDTO> shoppingProductDTO =shoppingProductMapper.toShoppingProductDTO(shoppingProductDTO);
+//			cartService.findShoppingProductByShoppingCart(carId);
+//			
+//			return ResponseEntity.ok().body(shoppingProductDTO);
+//			
+//		
+//	}
+	
 }

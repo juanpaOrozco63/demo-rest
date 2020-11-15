@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -14,7 +16,8 @@ import co.edu.usbcali.demo.domain.ShoppingProduct;
 @SpringBootTest
 @Rollback(false)
 class CartServiceTest {
-	
+	private final static Logger log = LoggerFactory.getLogger(PaymentMethodServiceTest.class);
+
 	@Autowired
 	CartService cartService;
 	@Autowired
@@ -22,7 +25,7 @@ class CartServiceTest {
 	@Test
 	void debeCrearUnShoppingCart() throws Exception {
 		//Arange
-		String email="afeaviour4@nba.com";
+		String email="fgiraudot0@economist.com";
 		ShoppingCart shoppingCart=null;
 		//Act
 		shoppingCart=cartService.createCart(email);
@@ -58,51 +61,36 @@ class CartServiceTest {
 	@Test
 	void debeAgregarProductShoppingCart() throws Exception{
 		//Arrange
-		Integer carId=8;
-		String proId="APPL56";
-		Integer quantity=5;
+		Integer carId=21;
+		String proId="MOV01";
+		Integer quantity=3;
 		ShoppingProduct shoppingProduct= null;
 		shoppingProduct =cartService.addProduct(carId, proId, quantity);
 		
 		assertNotNull(shoppingProduct,"El shopping product es nulo");
 	}
 	@Test
-	void removeItems() {
-		//Arrange
-			List<Integer> lista = null;
-			String proId="APPL56";
-			Integer carId=0;
+	void eliminarProductoDelCarrito() throws Exception {
+			//Arrange
+			String proId="MB4";
+			Integer carId=21;
 			//Act
-				lista=shoppingProductService.selectShpr(carId, proId);
-				lista.forEach(shpro->{
-					try {
-						shoppingProductService.deleteById(shpro);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				});
-				//Assert
-						
-				assertTrue(lista.size()>0,"La lista esta vacia");
+			cartService.removeProduct(carId, proId);
 	}
 	@Test
-	void removeAllItems() {
-		//Arrange
-			List<Integer> lista = null;
-			Integer carId=8;
-			//Act
-				lista=shoppingProductService.selectShprIdByCardId(carId);
-				lista.forEach(shpro->{
-					try {
-						shoppingProductService.deleteById(shpro);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				});
-				//Assert
-						
-				assertTrue(lista.size()>0,"La lista esta vacia");
+	void limpiarCarrito() throws Exception {
+			//Arrange
+			Integer carId=21;
+			cartService.clearCart(carId);
 	}
+	@Test
+	void buscarProductoPorCarrito() throws Exception {
+		Integer carId=20;
+		//Arrange
+		//Act
+		cartService.findShoppingProductByShoppingCart(carId);
+		 
+
+	}
+	
 }

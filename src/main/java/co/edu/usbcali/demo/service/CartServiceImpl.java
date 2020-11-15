@@ -3,6 +3,8 @@ package co.edu.usbcali.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import co.edu.usbcali.demo.domain.ShoppingProduct;
 @Scope("singleton")
 public class CartServiceImpl implements CartService {
 	
+	private final static Logger log = LoggerFactory.getLogger(CartServiceImpl.class);
+
 	@Autowired
 	CustomerService customerService;
 	
@@ -103,7 +107,7 @@ public class CartServiceImpl implements CartService {
 		shoppingProduct.setProduct(product);
 		shoppingProduct.setQuantity(quantity);
 		shoppingProduct.setShoppingCart(shoppingCart);
-		shoppingProduct.setShprId(0);
+		shoppingProduct.setShprId(1);
 		totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
 		shoppingProduct.setTotal(totalShoppingProduct);
 		
@@ -123,12 +127,13 @@ public class CartServiceImpl implements CartService {
 	public void removeProduct(Integer carId, String proId) throws Exception {
 		ShoppingCart shoppingCart=null;
 		List<Integer> listaShprId=null;
+		ShoppingProduct shoppingProduct=null;
 		Product product=null;
 		if(carId==null || carId<=0) {
 			throw new Exception("El carId es nulo o menor a cero");
 		}
 		if(proId==null || proId.isBlank()==true) {
-			throw new Exception("El proId es nulo o menor a esta en blanco");
+			throw new Exception("El proId es nulo o menor o esta en blanco");
 		}
 		if(shoppingCartService.findById(carId).isPresent()==false) {
 			throw new Exception("El shoppingCart con id"+carId+" no existe");
@@ -156,12 +161,16 @@ public class CartServiceImpl implements CartService {
 
 		}
 		listaShprId.forEach(shpr->{
-			try {
-				shoppingProductService.deleteById(shpr);
-			} catch (Exception e) {
-				e.printStackTrace();				
-			}
+			
+				try {
+					shoppingProductService.deleteById(shpr);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		});
+		shoppingCart.setItems(shoppingProductService.totalItems(carId));
+		shoppingCart.setTotal(shoppingProductService.totalShoppingProductByShoppingCart(carId));
+		shoppingCartService.update(shoppingCart);
 	}
 
 	@Override
@@ -189,6 +198,9 @@ public class CartServiceImpl implements CartService {
 				e.printStackTrace();				
 			}
 		});
+		shoppingCart.setItems(0);
+		shoppingCart.setTotal(0L);
+		shoppingCartService.update(shoppingCart);
 	}
 
 	@Override

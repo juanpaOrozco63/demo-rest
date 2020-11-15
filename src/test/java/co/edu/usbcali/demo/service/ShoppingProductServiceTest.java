@@ -29,7 +29,7 @@ class ShoppingProductServiceTest {
 	void total() {
 		//Arrange
 		Long total=0l;
-		Integer carId=8;
+		Integer carId=21;
 		//Act
 		total=shoppingProductService.totalShoppingProductByShoppingCart(carId);
 		
@@ -41,7 +41,7 @@ class ShoppingProductServiceTest {
 	void totalItems() {
 		//Arrange
 		Integer totalItems=0;
-		Integer carId=8;
+		Integer carId=20;
 		//Act
 		totalItems=shoppingProductService.totalItems(carId);
 		
@@ -87,7 +87,7 @@ class ShoppingProductServiceTest {
 	void removeAllItems() {
 		//Arrange
 			List<Integer> lista = null;
-			Integer carId=6;
+			Integer carId=19;
 			//Act
 				lista=shoppingProductService.selectShprIdByCardId(carId);
 				lista.forEach(shpro->{
@@ -105,15 +105,17 @@ class ShoppingProductServiceTest {
 	void findCarId() {
 		//Arrange
 		List<ShoppingProduct> lista = null;
-		Integer carId=8;
+		Integer carId=21;
 		//Act
 		lista=shoppingProductService.findByCarId(carId);
 		lista.forEach(shpro->{
 			log.info(shpro.getShprId()+" id");
+			log.info(shpro.getTotal()+" total");
+
 		});
 		//Assert
 				
-		assertTrue(lista.size()>0,"La lista esta vacia");
+		assertTrue(lista.size()>0,"El shoppingCart esta vacio");
 
 	}
 }
