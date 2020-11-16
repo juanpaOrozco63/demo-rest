@@ -99,13 +99,13 @@ public class ShoppingCartController {
 			
 		
 	}
-	@PostMapping("/createCart/{email}")
+	@GetMapping("/createCart/{email}")
 	public ResponseEntity<?> createCart(@PathVariable("email") String email)throws Exception{
 			 cartService.createCart(email);	
 			return ResponseEntity.ok().build();
 		
 	}
-	@PostMapping("/addProduct/{carId}/{proId}/{quantity}")
+	@GetMapping("/addProduct/{carId}/{proId}/{quantity}")
 	public ResponseEntity<?> addProduct(@PathVariable("carId") Integer carId, @PathVariable("proId") String proId,@PathVariable("quantity") Integer quantity)throws Exception{
 		cartService.addProduct(carId, proId, quantity);
 			return ResponseEntity.ok().build();
