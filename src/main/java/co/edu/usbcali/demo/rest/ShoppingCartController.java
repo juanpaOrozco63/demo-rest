@@ -146,7 +146,7 @@ public class ShoppingCartController {
 			
 		
 	}
-	@PutMapping("/closeShoppingCart/{carId}/{payId}")
+	@GetMapping("/closeShoppingCart/{carId}/{payId}")
 	public ResponseEntity<?> closeShoppingCart(@PathVariable("carId") Integer carId,@PathVariable("payId") Integer payId) throws Exception{
 			cartService.closeShoppingCart(carId, payId);
 		
