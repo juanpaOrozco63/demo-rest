@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.usbcali.demo.domain.Customer;
+import co.edu.usbcali.demo.domain.PaymentMethod;
 import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
@@ -33,6 +34,9 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	ShoppingProductService shoppingProductService;
+	
+	@Autowired
+	PaymentMethodService paymentMethodService;
 
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
@@ -227,6 +231,57 @@ public class CartServiceImpl implements CartService {
 		}
 		listaFindAll=shoppingProductService.findByCarId(carId);
 		return listaFindAll;
+	}
+
+	@Override
+	public List<ShoppingCart> findCarIdShoppingCartsByEmail(String email) throws Exception {
+		Customer customer = null;
+		 if(email==null | email.isBlank()==true) { 
+			 throw new Exception("El email del cliente esta nulo");
+		 }
+		 Optional<Customer> customerOptional = customerService.findById(email);
+		 if(customerOptional.isPresent()==false) {
+			 throw new Exception("No existe un cliente con el email"+email);
+		 }
+		 customer =customerOptional.get();
+		 if(customer.getEnable()==null || customer.getEnable().equals("N")==true) {
+			 throw new Exception("El cliente con email"+email+" esta deshabilitado");
+		 }
+		 return shoppingCartService.findShpCartByEmail(email);
+	}
+	@Override
+	public ShoppingCart closeShoppingCart (Integer carId,Integer payId) throws Exception{
+		ShoppingCart shoppingCart = null;
+		PaymentMethod paymentMethod = null;
+		if (carId == null || carId <= 0) {
+			throw new Exception("El carId es nulo o menor a cero");
+		}
+
+		if (payId == null || payId <= 0) {
+			throw new Exception("El payId es nulo o menor a cero");
+		}
+
+		if (shoppingCartService.findById(carId).isPresent() == false) {
+			throw new Exception("El shoppingCart con carId " + carId + " no existe");
+		}
+		shoppingCart = shoppingCartService.findById(carId).get();
+		if (shoppingCart.getEnable().equals("N") == true) {
+			throw new Exception("El shoppingCart esta inhabilitado");
+		}
+		if (paymentMethodService.findById(payId).isPresent() == false) {
+			throw new Exception("El paymentMethod no existe");
+		}
+
+		paymentMethod = paymentMethodService.findById(payId).get();
+
+		if (paymentMethod.getEnable().equals("N") == true) {
+			throw new Exception("El paymentMethod esta inhabilitado");
+		}
+		shoppingCart.setEnable("N");
+		shoppingCart.setPaymentMethod(paymentMethod);
+		shoppingCartService.update(shoppingCart);
+		return shoppingCart;
+		
 	}
 
 }

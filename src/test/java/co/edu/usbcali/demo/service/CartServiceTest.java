@@ -92,5 +92,22 @@ class CartServiceTest {
 		 
 
 	}
+	@Test
+	void buscarShoppingCartEmail() throws Exception {
+		String email="fgiraudot0@economist.com";
+		//Arrange
+		//Act
+		cartService.findCarIdShoppingCartsByEmail(email);
+
+	}
+	@Test
+	void findShoppingProductByShoppingCart() throws Exception {
+		Integer carId=21;
+		//Arrange
+		//Act
+		cartService.findShoppingProductByShoppingCart(carId);
+
+	}
+	
 	
 }

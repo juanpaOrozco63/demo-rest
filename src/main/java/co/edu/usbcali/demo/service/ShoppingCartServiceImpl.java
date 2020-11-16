@@ -111,4 +111,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		return shoppingCartRepository.count();
 	}
 
+	@Override
+	public List<ShoppingCart> findShpCartByEmail(String email) {
+		return shoppingCartRepository.findShpCartByEmail(email);
+	}
+
+	
+
 }

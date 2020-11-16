@@ -99,23 +99,22 @@ public class ShoppingCartController {
 			
 		
 	}
-	@GetMapping("/createCart/{email}")
+	@PostMapping("/createCart/{email}")
 	public ResponseEntity<?> createCart(@PathVariable("email") String email)throws Exception{
-	
-			cartService.createCart(email);
-			
-			return ResponseEntity.ok().build();
+			ShoppingCart shoppingCart = cartService.createCart(email);
+			ShoppingCartDTO shoppingCartDTO = shoppingCartMapper.toShoppingCartDTO(shoppingCart);		
+			return ResponseEntity.ok().body(shoppingCartDTO);
 		
 	}
-	@GetMapping("/addProduct/{carId}/{proId}/{quantity}")
+	@PostMapping("/addProduct/{carId}/{proId}/{quantity}")
 	public ResponseEntity<?> addProduct(@PathVariable("carId") Integer carId, @PathVariable("proId") String proId,@PathVariable("quantity") Integer quantity)throws Exception{
-	
-			cartService.addProduct(carId, proId, quantity);
+		ShoppingProduct shoppingProduct = cartService.addProduct(carId, proId, quantity);
+		ShoppingProductDTO shoppingProductDTO = shoppingProductMapper.toShoppingProductDTO(shoppingProduct);
 			
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok().body(shoppingProductDTO);
 		
 	}
-	@GetMapping("/removeProduct/{carId}/{proId}")
+	@DeleteMapping("/removeProduct/{carId}/{proId}")
 	public ResponseEntity<?> removeProduct(@PathVariable("carId") Integer carId, @PathVariable("proId") String proId) throws Exception{
 			cartService.removeProduct(carId, proId);
 			return ResponseEntity.ok().build();
@@ -133,10 +132,34 @@ public class ShoppingCartController {
 	}
 	@GetMapping("/findShoppingProductByShoppingCart/{carId}")
 	public ResponseEntity<?> findShoppingProductByShoppingCart(@PathVariable("carId") Integer carId) throws Exception{
-			List<ShoppingProductDTO> shoppingProductDTO =shoppingProductMapper.toListShoppingProductDTO(cartService.findShoppingProductByShoppingCart(carId));
-			;
+			List<ShoppingProduct> shoppingProducts = cartService.findShoppingProductByShoppingCart(carId);
+			if (shoppingProducts.isEmpty() == true || shoppingProducts == null) {
+				return ResponseEntity.ok().body(null);
+			}
+			List<ShoppingProductDTO> shoppingProductDTOs = shoppingProductMapper.toListShoppingProductDTO(shoppingProducts);
 			
-			return ResponseEntity.ok().body(shoppingProductDTO);
+			return ResponseEntity.ok().body(shoppingProductDTOs);
+			
+		
+	}
+	@GetMapping("/findCarIdShoppingCartsByEmail/{email}")
+	public ResponseEntity<?> findCarIdShoppingCartsByEmail(@PathVariable("email") String email) throws Exception{
+		List<ShoppingCart> shoppingCarts = cartService.findCarIdShoppingCartsByEmail(email);
+		if (shoppingCarts.isEmpty() == true || shoppingCarts == null) {
+			return ResponseEntity.ok().body(null);
+		}
+		List<ShoppingCartDTO> shoppingCartDTOs = shoppingCartMapper.toListShoppingCartDTO(shoppingCarts);
+			
+			return ResponseEntity.ok().body(shoppingCartDTOs);
+			
+		
+	}
+	@PutMapping("/closeShoppingCart/{carId}/{payId}")
+	public ResponseEntity<?> closeShoppingCart(@PathVariable("carId") Integer carId,@PathVariable("payId") Integer payId) throws Exception{
+		ShoppingCart shoppingCart = cartService.closeShoppingCart(carId, payId);
+		ShoppingCartDTO shoppingCartDTO = shoppingCartMapper.toShoppingCartDTO(shoppingCart);
+			
+			return ResponseEntity.ok().body(shoppingCartDTO);
 			
 		
 	}
