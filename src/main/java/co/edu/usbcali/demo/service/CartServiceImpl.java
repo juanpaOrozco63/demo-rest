@@ -110,6 +110,7 @@ public class CartServiceImpl implements CartService {
 			throw new Exception("El product esta inhabilitado");
 		}
 		shoppingProduct = shoppingProductService.selectShpr(carId, proId);
+		
 		if(shoppingProduct==null) {
 			shoppingProduct=new ShoppingProduct();
 			shoppingProduct.setProduct(product);
@@ -126,9 +127,8 @@ public class CartServiceImpl implements CartService {
 			shoppingProduct.setTotal(totalShoppingProduct);
 			shoppingProduct = shoppingProductService.update(shoppingProduct);
 		}
-		
+
 		totalItems=shoppingProductService.totalItems(carId);
-		totalShoppingCart=shoppingProductService.totalShoppingProductByShoppingCart(carId);
 		shoppingCart.setTotal(totalShoppingCart);
 		shoppingCart.setItems(totalItems);
 		shoppingCartService.update(shoppingCart);
