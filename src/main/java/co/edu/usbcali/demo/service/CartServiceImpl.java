@@ -277,7 +277,6 @@ public class CartServiceImpl implements CartService {
 		if (paymentMethod.getEnable().equals("N") == true) {
 			throw new Exception("El paymentMethod esta inhabilitado");
 		}
-		shoppingCart.setEnable("N");
 		shoppingCart.setPaymentMethod(paymentMethod);
 		shoppingCartService.update(shoppingCart);
 		return shoppingCart;
