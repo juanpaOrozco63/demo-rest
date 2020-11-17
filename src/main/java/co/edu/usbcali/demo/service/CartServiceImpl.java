@@ -68,6 +68,7 @@ public class CartServiceImpl implements CartService {
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public ShoppingProduct addProduct(Integer carId, String proId, Integer quantity) throws Exception {
+		
 		ShoppingProduct shoppingProduct =null;
 		ShoppingCart shoppingCart=null;
 		Product product=null;
@@ -117,6 +118,7 @@ public class CartServiceImpl implements CartService {
 			shoppingProduct.setShprId(1);
 			totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
 			shoppingProduct.setTotal(totalShoppingProduct);
+			shoppingProduct = shoppingProductService.save(shoppingProduct);
 		}else {
 			newQuantity = shoppingProduct.getQuantity() + quantity;
 			totalShoppingProduct = Long.valueOf(product.getPrice() * newQuantity);
