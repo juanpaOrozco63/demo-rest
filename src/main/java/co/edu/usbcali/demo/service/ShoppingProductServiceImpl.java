@@ -149,7 +149,7 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 	}
 
 	@Override
-	public List<Integer> selectShpr(Integer carId, String proId) {
+	public ShoppingProduct selectShpr(Integer carId, String proId) {
 		return shoppingProductRepository.selectShprId(carId, proId);
 	}
 

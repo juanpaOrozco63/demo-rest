@@ -68,12 +68,14 @@ public class CartServiceImpl implements CartService {
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public ShoppingProduct addProduct(Integer carId, String proId, Integer quantity) throws Exception {
-		
+		ShoppingProduct shoppingProduct =null;
 		ShoppingCart shoppingCart=null;
 		Product product=null;
 		Long totalShoppingProduct=0L;
 		Long totalShoppingCart=0L;
 		Integer totalItems=0;
+		Integer newQuantity = 0;
+
 		if(carId==null || carId<=0) {
 			throw new Exception("El carId es nulo o menor a cero");
 		}
@@ -106,14 +108,23 @@ public class CartServiceImpl implements CartService {
 		if(product.getEnable().equals("N")==true) {
 			throw new Exception("El product esta inhabilitado");
 		}
+		shoppingProduct = shoppingProductService.selectShpr(carId, proId);
+		if(shoppingProduct==null) {
+			shoppingProduct=new ShoppingProduct();
+			shoppingProduct.setProduct(product);
+			shoppingProduct.setQuantity(quantity);
+			shoppingProduct.setShoppingCart(shoppingCart);
+			shoppingProduct.setShprId(1);
+			totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
+			shoppingProduct.setTotal(totalShoppingProduct);
+		}else {
+			newQuantity = shoppingProduct.getQuantity() + quantity;
+			totalShoppingProduct = Long.valueOf(product.getPrice() * newQuantity);
+			shoppingProduct.setQuantity(newQuantity);
+			shoppingProduct.setTotal(totalShoppingProduct);
+			shoppingProduct = shoppingProductService.update(shoppingProduct);
+		}
 		
-		ShoppingProduct shoppingProduct=new ShoppingProduct();
-		shoppingProduct.setProduct(product);
-		shoppingProduct.setQuantity(quantity);
-		shoppingProduct.setShoppingCart(shoppingCart);
-		shoppingProduct.setShprId(1);
-		totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
-		shoppingProduct.setTotal(totalShoppingProduct);
 		
 		shoppingProduct=shoppingProductService.save(shoppingProduct);
 		totalItems=shoppingProductService.totalItems(carId);
@@ -130,7 +141,6 @@ public class CartServiceImpl implements CartService {
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void removeProduct(Integer carId, String proId) throws Exception {
 		ShoppingCart shoppingCart=null;
-		List<Integer> listaShprId=null;
 		ShoppingProduct shoppingProduct=null;
 		Product product=null;
 		Long totalShoppingCart  = null;
@@ -161,28 +171,21 @@ public class CartServiceImpl implements CartService {
 			throw new Exception("El product esta inhabilitado");
 		}
 		
-		listaShprId= shoppingProductService.selectShpr(carId, proId);
-		if(listaShprId.isEmpty()==true||listaShprId==null) {
-			throw new Exception("No hay ningun shoppingProduct para eliminar");
-
+		shoppingProduct= shoppingProductService.selectShpr(carId, proId);
+		if(shoppingProduct==null) {
+			throw new Exception("No hay ningun shoppingProduct con "+carId+"proId: "+proId);	
 		}
-		listaShprId.forEach(shpr->{
-			
-				try {
-					shoppingProductService.deleteById(shpr);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-		});
-		totalShoppingCart=shoppingProductService.totalShoppingProductByShoppingCart(carId);
-		itemsShoppingCart=shoppingProductService.totalItems(carId);
-		if(totalShoppingCart==null ||itemsShoppingCart==null) {
-			totalShoppingCart=0L;
-			itemsShoppingCart=0;
+		shoppingProductService.delete(shoppingProduct);
+		totalShoppingCart = shoppingProductService.totalShoppingProductByShoppingCart(carId);
+		itemsShoppingCart = shoppingProductService.totalItems(carId);
+		if (totalShoppingCart == null || itemsShoppingCart == null) {
+			totalShoppingCart = 0L;
+			itemsShoppingCart = 0;
 		}
-		shoppingCart.setItems(itemsShoppingCart);
 		shoppingCart.setTotal(totalShoppingCart);
+		shoppingCart.setItems(itemsShoppingCart);
 		shoppingCartService.update(shoppingCart);
+		
 	}
 
 	@Override

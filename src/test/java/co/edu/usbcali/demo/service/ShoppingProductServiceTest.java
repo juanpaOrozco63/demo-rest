@@ -49,40 +49,7 @@ class ShoppingProductServiceTest {
 				
 		assertTrue(totalItems>0);
 	}
-	@Test
-	void selectSphrProducto() {
-		//Arrange
-		List<Integer> lista = null;
-		String proId="APPL56";
-		Integer carId=16;
-		//Act
-		lista=shoppingProductService.selectShpr(carId, proId);
-		lista.forEach(shpro->{
-			log.info(shpro+"id");
-		});
-		//Assert
-				
-		assertTrue(lista.size()>0,"La lista esta vacia");
-	}
-	@Test
-	void removeItems() {
-		//Arrange
-			List<Integer> lista = null;
-			String proId="APPL56";
-			Integer carId=21;
-			//Act
-				lista=shoppingProductService.selectShpr(carId, proId);
-				lista.forEach(shpro->{
-					try {
-						shoppingProductService.deleteById(shpro);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				});
-				//Assert
-						
-				assertTrue(lista.size()>0,"La lista esta vacia");
-	}
+	
 	@Test
 	void removeAllItems() {
 		//Arrange
