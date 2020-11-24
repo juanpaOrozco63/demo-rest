@@ -13,6 +13,10 @@ public interface ShoppingProductMapper {
 	
 	@Mapping(source = "product.proId", target = "productId")
 	@Mapping(source = "shoppingCart.carId", target = "shoppingCartId")
+	@Mapping(source = "product.name", target="name")
+	@Mapping(source= "product.image", target="image")
+	@Mapping(source="product.price", target="price")
+
 	public ShoppingProductDTO toShoppingProductDTO(ShoppingProduct shoppingProduct);
 
 	@Mapping(source = "productId", target = "product.proId")
@@ -20,6 +24,6 @@ public interface ShoppingProductMapper {
 	public ShoppingProduct toShoppingProduct(ShoppingProductDTO shoppingProductDTO);
 
 	public List<ShoppingProductDTO> toListShoppingProductDTO(List<ShoppingProduct> shoppingProducts);
-
+	
 	public List<ShoppingProduct> toListShoppingProduct(List<ShoppingProductDTO> shoppingProductDTOs);
 }

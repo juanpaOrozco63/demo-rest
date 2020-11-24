@@ -14,4 +14,5 @@ public interface CartService {
 	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId)throws Exception;
 	public List<ShoppingCart> findCarIdShoppingCartsByEmail(String email)throws Exception;
 	public ShoppingCart closeShoppingCart(Integer carId, Integer payId) throws Exception;
+	public List<ShoppingProduct> selectPurchase(String email) throws Exception;
 }

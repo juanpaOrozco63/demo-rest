@@ -25,7 +25,7 @@ class CartServiceTest {
 	@Test
 	void debeCrearUnShoppingCart() throws Exception {
 		//Arange
-		String email="fgiraudot0@economist.com";
+		String email="afeaviour4@nba.com";
 		ShoppingCart shoppingCart=null;
 		//Act
 		shoppingCart=cartService.createCart(email);
@@ -72,7 +72,7 @@ class CartServiceTest {
 	@Test
 	void eliminarProductoDelCarrito() throws Exception {
 			//Arrange
-			String proId="MB4";
+			String proId="MB4";	
 			Integer carId=21;
 			//Act
 			cartService.removeProduct(carId, proId);

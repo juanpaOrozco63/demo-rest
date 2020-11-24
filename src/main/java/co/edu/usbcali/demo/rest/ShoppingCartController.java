@@ -30,6 +30,7 @@ import co.edu.usbcali.demo.mapper.ShoppingCartMapper;
 import co.edu.usbcali.demo.mapper.ShoppingProductMapper;
 import co.edu.usbcali.demo.service.CartService;
 import co.edu.usbcali.demo.service.ShoppingCartService;
+import co.edu.usbcali.demo.service.ShoppingProductService;
 
 @RestController
 @RequestMapping("/api/shoppingCart")
@@ -45,6 +46,8 @@ public class ShoppingCartController {
 	ShoppingProductMapper shoppingProductMapper;
 	@Autowired
 	CartService cartService;
+	@Autowired
+	ShoppingProductService shoppingProductService;
 	
 	private final static Logger log = LoggerFactory.getLogger(CustomerController.class);
 	
@@ -165,5 +168,15 @@ public class ShoppingCartController {
 			
 		
 	}
+	@GetMapping("/selectPurchase/{email}")
+	public ResponseEntity<?> selectPurchase(@PathVariable("email") String email) throws Exception{
+		List<ShoppingProductDTO> shoppingProductsDTO = shoppingProductMapper.toListShoppingProductDTO(cartService.selectPurchase(email));
+
+		return ResponseEntity.ok().body(shoppingProductsDTO);
 	
+
+
+			
+		
+	}
 }

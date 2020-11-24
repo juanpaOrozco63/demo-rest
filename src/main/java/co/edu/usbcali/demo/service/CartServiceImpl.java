@@ -16,6 +16,7 @@ import co.edu.usbcali.demo.domain.PaymentMethod;
 import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
+import co.edu.usbcali.demo.repository.ShoppingProductRepository;
 
 @Service
 @Scope("singleton")
@@ -37,6 +38,9 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	PaymentMethodService paymentMethodService;
+	
+	@Autowired
+	ShoppingProductRepository shoppingProductRepository;
 
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
@@ -284,6 +288,14 @@ public class CartServiceImpl implements CartService {
 		shoppingCartService.update(shoppingCart);
 		return shoppingCart;
 		
+	}
+
+	@Override
+	public List<ShoppingProduct> selectPurchase(String email) throws Exception {
+		if(customerService.findById(email).isPresent() == false) {
+			throw new Exception("El email no existe");
+		}
+		return shoppingProductRepository.selectPurchase(email);
 	}
 
 }

@@ -85,4 +85,14 @@ class ShoppingProductServiceTest {
 		assertTrue(lista.size()>0,"El shoppingCart esta vacio");
 
 	}
+//	@Test
+//	void selectPurchase(){
+//		List<ShoppingProduct> lista=null;
+//		String email= "afeaviour4@nba.com";
+//		lista= shoppingProductService.selectPurchase(email);
+//		lista.forEach(shp->{
+//			log.info(shp.getProduct().getName()+"hola");
+//		});
+//		
+//	}
 }
