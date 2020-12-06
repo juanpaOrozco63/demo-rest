@@ -86,5 +86,25 @@ public class ProductController {
 		
 
 	}
+	@GetMapping("/filterPrice/{p1}/{p2}")
+	public ResponseEntity<?> findById(@PathVariable("p1") Integer p1,@PathVariable("p2") Integer p2)throws Exception {
+//			Lista de productos
+			List<Product> products = productService.filterPrice(p1, p2);
+//			Mapper para convertir la lista de productos a dto
+			List<ProductDTO> productDTOs = productMapper.toProductsDTO(products);
+			return ResponseEntity.ok().body(productDTOs);
+		
 
+	}
+	@GetMapping("/filterName/{name}")
+	public ResponseEntity<?> filterName(@PathVariable("name") String name)throws Exception {
+//			Lista de productos
+			List<Product> products = productService.filterName(name);
+//			Mapper para convertir la lista de productos a dto
+			List<ProductDTO> productDTOs = productMapper.toProductsDTO(products);
+			return ResponseEntity.ok().body(productDTOs);
+		
+
+	}
 }
+

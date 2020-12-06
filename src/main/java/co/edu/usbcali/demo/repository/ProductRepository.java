@@ -22,4 +22,10 @@ public interface ProductRepository  extends JpaRepository<Product, String> {
 	public List<Product> findProductLikeA(); 
 	//Busca por proId y nombre
 	public List<Product> findByProIdAndName(String proId, String name);
+//	Buscar productos entre precios
+	@Query("SELECT pro FROM Product pro WHERE pro.enable='Y' AND pro.price BETWEEN :p1 AND :p2 ")
+	public List<Product> filterPrice(Integer p1, Integer p2);
+//	Buscar productos por nombre
+	@Query("SELECT pro FROM Product pro WHERE pro.name LIKE %:name% AND pro.enable='Y'")
+	public List<Product> filterName(String name);
 }

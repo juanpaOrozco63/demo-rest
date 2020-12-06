@@ -119,6 +119,16 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
+	@Override
+	public List<Product> filterPrice(Integer p1, Integer p2) {
+		return productRepository.filterPrice(p1, p2);
+	}
+
+	@Override
+	public List<Product> filterName(String name) {
+		return productRepository.filterName(name);
+	}
+
 
 
 }
